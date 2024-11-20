@@ -1,13 +1,14 @@
 package com.jacky.spingbootmall.service.impl;
-import java.util.List;
 
-import com.jacky.spingbootmall.constant.ProductCategory;
 import com.jacky.spingbootmall.dao.ProductDao;
+import com.jacky.spingbootmall.dto.ProductQueryParams;
 import com.jacky.spingbootmall.dto.ProductRequest;
 import com.jacky.spingbootmall.model.Product;
 import com.jacky.spingbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ProductServiceImpl implements ProductService {
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
-        return productDao.getProducts(category, search);
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override

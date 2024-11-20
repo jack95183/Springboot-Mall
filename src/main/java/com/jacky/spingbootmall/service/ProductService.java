@@ -1,12 +1,13 @@
 package com.jacky.spingbootmall.service;
-import java.util.List;
 
-import com.jacky.spingbootmall.constant.ProductCategory;
+import com.jacky.spingbootmall.dto.ProductQueryParams;
 import com.jacky.spingbootmall.dto.ProductRequest;
 import com.jacky.spingbootmall.model.Product;
 
+import java.util.List;
+
 public interface ProductService {
-    List<Product> getProducts(ProductCategory category, String search);
+    List<Product> getProducts(ProductQueryParams productQueryParams);
     Product getProductById(int productId);
 
     Integer createProduct(ProductRequest productRequest);
