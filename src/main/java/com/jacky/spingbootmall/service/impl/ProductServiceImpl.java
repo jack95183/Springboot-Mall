@@ -1,5 +1,7 @@
 package com.jacky.spingbootmall.service.impl;
 import java.util.List;
+
+import com.jacky.spingbootmall.constant.ProductCategory;
 import com.jacky.spingbootmall.dao.ProductDao;
 import com.jacky.spingbootmall.dto.ProductRequest;
 import com.jacky.spingbootmall.model.Product;
@@ -14,8 +16,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category, String search) {
+        return productDao.getProducts(category, search);
     }
 
     @Override
