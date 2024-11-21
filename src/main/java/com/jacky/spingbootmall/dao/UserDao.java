@@ -6,5 +6,6 @@ import com.jacky.spingbootmall.model.User;
 public interface UserDao {
 
     User getUserById(Integer userId);
+    User getUserByEmail(String eamil);
     Integer createUser(UserRegisterRequest userRegisterRequest);
 }
