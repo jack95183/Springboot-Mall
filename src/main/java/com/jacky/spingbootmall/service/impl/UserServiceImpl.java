@@ -1,6 +1,7 @@
 package com.jacky.spingbootmall.service.impl;
 
 import com.jacky.spingbootmall.dao.UserDao;
+import com.jacky.spingbootmall.dto.UserLoginRequest;
 import com.jacky.spingbootmall.dto.UserRegisterRequest;
 import com.jacky.spingbootmall.model.User;
 import com.jacky.spingbootmall.service.UserService;
@@ -36,5 +37,21 @@ public class UserServiceImpl implements UserService {
 
         //創建帳號
         return userDao.createUser(userRegisterRequest);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+        if(user == null){
+            log.warn("該eamil {} 尚未註冊", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if(user.getPassword().equals(userLoginRequest.getPassword())){
+            return user;
+        }else{
+            log.warn("eamil {} 的密碼不正確", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
