@@ -4,6 +4,7 @@ import com.jacky.spingbootmall.dao.OrderDao;
 import com.jacky.spingbootmall.dao.ProductDao;
 import com.jacky.spingbootmall.dto.BuyItem;
 import com.jacky.spingbootmall.dto.CreateOrderRequest;
+import com.jacky.spingbootmall.model.Order;
 import com.jacky.spingbootmall.model.OrderItem;
 import com.jacky.spingbootmall.model.Product;
 import com.jacky.spingbootmall.service.OrderService;
@@ -21,6 +22,18 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+
+        return order;
+
+    }
 
     @Transactional
     @Override
