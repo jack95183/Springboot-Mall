@@ -5,6 +5,7 @@ import com.jacky.spingbootmall.dao.ProductDao;
 import com.jacky.spingbootmall.dao.UserDao;
 import com.jacky.spingbootmall.dto.BuyItem;
 import com.jacky.spingbootmall.dto.CreateOrderRequest;
+import com.jacky.spingbootmall.dto.OrderQueryParams;
 import com.jacky.spingbootmall.model.Order;
 import com.jacky.spingbootmall.model.OrderItem;
 import com.jacky.spingbootmall.model.Product;
@@ -31,6 +32,24 @@ public class OrderServiceImpl implements OrderService {
     private ProductDao productDao;
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParams);
+
+        for (Order order : orderList) {
+            List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+
+            order.setOrderItemList(orderItemList);
+        }
+
+        return orderList;
+    }
 
     @Override
     public Order getOrderById(Integer orderId) {
