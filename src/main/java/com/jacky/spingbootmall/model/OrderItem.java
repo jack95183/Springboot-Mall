@@ -1,14 +1,32 @@
 package com.jacky.spingbootmall.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "order_item")
 public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_item_id")
     private Integer orderItemId;
+
+    @Column(name = "order_id")
     private Integer orderId;
+
+    @Column(name = "product_id")
     private Integer productId;
+
+    @Column(name = "quantity")
     private Integer quantity;
+
+    @Column(name = "amount")
     private Integer amount;
 
-    private String productName;
-    private String imageUrl;
 
     public Integer getOrderItemId() {
         return orderItemId;
@@ -50,19 +68,4 @@ public class OrderItem {
         this.amount = amount;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }

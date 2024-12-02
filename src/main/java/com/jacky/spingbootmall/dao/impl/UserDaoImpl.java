@@ -1,78 +1,41 @@
 package com.jacky.spingbootmall.dao.impl;
-import com.jacky.spingbootmall.rowmapper.UserRowMapper;
+
 import com.jacky.spingbootmall.dao.UserDao;
 import com.jacky.spingbootmall.dto.UserRegisterRequest;
 import com.jacky.spingbootmall.model.User;
+import com.jacky.spingbootmall.model.Repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-@Component
+@Repository
 public class UserDaoImpl implements UserDao {
 
     @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
+    private UserRepository userRepository;
 
     @Override
     public User getUserById(Integer userId) {
-        String sql = "SELECT * FROM `user` WHERE user_id=:user_id";
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("user_id", userId);
-
-        List<User> userList = namedParameterJdbcTemplate.query(sql, map, new UserRowMapper());
-
-        if (userList.size() > 0) {
-            return userList.get(0);
-        } else {
-            return null;
-        }
+        Optional<User> userOptional = userRepository.findById(userId);
+        return userOptional.orElse(null);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        String sql = "SELECT * FROM `user` WHERE email=:email";
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("email", email);
-
-        List<User> userList = namedParameterJdbcTemplate.query(sql, map, new UserRowMapper());
-
-        if (userList.size() > 0) {
-            return userList.get(0);
-        } else {
-            return null;
-        }
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
-        String sql = "INSERT INTO `user`(email, password, created_date, last_modified_date)"
-                + " VALUES (:email, :password, :createdDate, :lastModifiedDate)";
-        Map<String, Object> map = new HashMap<>();
-        map.put("email", userRegisterRequest.getEmail());
-        map.put("password", userRegisterRequest.getPassword());
+        User user = new User();
+        user.setEmail(userRegisterRequest.getEmail());
+        user.setPassword(userRegisterRequest.getPassword());
+        user.setCreatedDate(new java.util.Date());
+        user.setLastModifiedDate(new java.util.Date());
 
-        Date now = new Date();
-        map.put("createdDate", now);
-        map.put("lastModifiedDate", now);
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
-
-        int userId = keyHolder.getKey().intValue();
-
-        return userId;
+        User savedUser = userRepository.save(user);
+        return savedUser.getUserId();
     }
 }

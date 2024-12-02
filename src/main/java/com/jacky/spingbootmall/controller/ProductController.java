@@ -26,16 +26,12 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<Page<Product>> getProducts(
-            //查詢條件 Filtering
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
-            //排序 Sorting
             @RequestParam(defaultValue = "created_date") String orderBy,
             @RequestParam(defaultValue = "desc") String sort,
-            //分頁 Pagination
             @RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,
-            @RequestParam(defaultValue = "0") @Min(0) Integer offset
-            ) {
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset) {
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSearch(search);
@@ -45,7 +41,7 @@ public class ProductController {
         productQueryParams.setOffset(offset);
 
         //取得 product List
-        List<Product> productList = productService.getProducts(productQueryParams);
+        List<Product> productList = productService.getProducts(productQueryParams).getContent();
 
         //取得 product 總數
         Integer total = productService.countProduct(productQueryParams);
@@ -82,15 +78,15 @@ public class ProductController {
 
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,
-                                                 @RequestBody @Valid ProductRequest productRequest) {
-        //檢查產品是否存在
+            @RequestBody @Valid ProductRequest productRequest) {
+        // 檢查產品是否存在
         Product product = productService.getProductById(productId);
 
         if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        //修改產品的數據
+        // 修改產品的數據
         productService.updateProduct(productId, productRequest);
 
         Product updatedProduct = productService.getProductById(productId);

@@ -3,13 +3,36 @@ package com.jacky.spingbootmall.model;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "\"order\"")
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Integer orderId;
+
+    @Column(name = "user_id")
     private Integer userId;
+
+    @Column(name = "total_amount")
     private Integer totalAmount;
+
+    @Column(name = "created_date")
     private Date createdDate;
+
+    @Column(name = "last_modified_date")
     private Date lastModifiedDate;
+
+    @ElementCollection
     private List<OrderItem> orderItemList;
 
     public Integer getOrderId() {

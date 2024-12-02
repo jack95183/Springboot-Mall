@@ -6,9 +6,11 @@ import com.jacky.spingbootmall.model.Product;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface ProductService {
     Integer countProduct(ProductQueryParams productQueryParams);
-    List<Product> getProducts(ProductQueryParams productQueryParams);
+    Page<Product> getProducts(ProductQueryParams productQueryParams);
     Product getProductById(int productId);
 
     Integer createProduct(ProductRequest productRequest);

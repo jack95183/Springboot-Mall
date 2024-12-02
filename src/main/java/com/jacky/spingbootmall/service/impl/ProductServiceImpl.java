@@ -6,6 +6,7 @@ import com.jacky.spingbootmall.dto.ProductRequest;
 import com.jacky.spingbootmall.model.Product;
 import com.jacky.spingbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+    public Page<Product> getProducts(ProductQueryParams productQueryParams) {
         return productDao.getProducts(productQueryParams);
     }
 

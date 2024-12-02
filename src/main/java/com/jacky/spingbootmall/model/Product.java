@@ -2,18 +2,49 @@ package com.jacky.spingbootmall.model;
 
 import com.jacky.spingbootmall.constant.ProductCategory;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "product")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Integer productId;
+
+    @Column(name = "product_name")
     private String productName;
+
+    @Column(name = "category")
+    @Enumerated(EnumType.STRING) // 使用字串存儲 enum
     private ProductCategory category;
+
+    @Column(name = "image_url")
     private String image_url;
+
+    @Column(name = "price")
     private Integer price;
+
+    @Column(name = "stock")
     private Integer stock;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "created_date")
     private Date createdDate;
+
+    @Column(name = "last_modified_date")
     private Date lastModifiedDate;
 
     public Integer getProductId() {
