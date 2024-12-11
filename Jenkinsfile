@@ -1,44 +1,29 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.6.3-jdk-11'
-            args '-v /var/jenkins_home:/var/jenkins_home'
-        }
+    agent any
+
+    tools {
+        maven 'Maven 3.9.9'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                dir('/var/jenkins_home/workspace') {
-                    // 使用公开仓库 URL
-                    git url: 'https://github.com/jack95183/Springboot-Mall.git'
-                }
+                // 从 GitHub 仓库中检出代码
+                git url: 'https://github.com/jack95183/Springboot-Mall.git', branch: 'main'
             }
         }
 
         stage('Build') {
             steps {
-                dir('/var/jenkins_home/workspace/Springboot-Mall') {
-                    // 构建 Spring Boot 项目
-                    sh 'mvn clean package'
-                }
+                // 构建 Spring Boot 项目
+                sh 'mvn clean package'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Run') {
             steps {
-                dir('/var/jenkins_home/workspace/Springboot-Mall') {
-                    script {
-                        docker.build('springboot-mall:latest')
-                    }
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // 运行 Docker 容器
-                sh 'docker run -d -p 8080:8080 springboot-mall:latest'
+                // 运行 Spring Boot 应用
+                sh 'java -jar target/springboot-mall-0.0.1-SNAPSHOT.jar'
             }
         }
     }
