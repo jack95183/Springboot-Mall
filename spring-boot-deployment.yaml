@@ -17,7 +17,7 @@ spec:
       - name: spring-boot-app
         image: jacky95183/spingboot-mall:latest  # 替換為你的 Docker Hub 鏡像
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
         env:
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://postgres:5432/mall"
@@ -37,5 +37,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 8081
   type: LoadBalancer
