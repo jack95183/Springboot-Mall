@@ -23,7 +23,7 @@ pipeline {
         stage('Run') {
             steps {
                 // 运行 Spring Boot 应用，并使用一个不同的端口，如 8081
-                sh 'java -jar target/springboot-mall-0.0.1-SNAPSHOT.jar --server.port=8081'
+                sh 'java -jar target/spingboot-mall-0.0.1-SNAPSHOT.jar --server.port=8081'
             }
         }
     }
