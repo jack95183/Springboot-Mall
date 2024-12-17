@@ -28,6 +28,11 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <sonar.host.url>http://localhost:30009</sonar.host.url>
+        <sonar.login>sqp_107699455872d722832ffb32b02ce5f687b058fa</sonar.login>
+        <sonar.projectKey>Springboot-Mall</sonar.projectKey>
+        <sonar.projectName>Springboot-Mall</sonar.projectName>
+        <sonar.projectVersion>1.0</sonar.projectVersion>
     </properties>
     <dependencies>
         <dependency>
@@ -62,20 +67,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.junit.vintage</groupId>-->
-<!--                    <artifactId>junit-vintage-engine</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+<!-- <exclusions>-->
+<!-- <exclusion>-->
+<!-- <groupId>org.junit.vintage</groupId>-->
+<!-- <artifactId>junit-vintage-engine</artifactId>-->
+<!-- </exclusion>-->
+<!-- </exclusions>-->
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
             </plugin>
         </plugins>
     </build>
@@ -99,5 +108,4 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 </project>

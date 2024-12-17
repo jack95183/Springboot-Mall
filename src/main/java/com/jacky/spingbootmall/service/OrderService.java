@@ -3,6 +3,7 @@ package com.jacky.spingbootmall.service;
 import com.jacky.spingbootmall.dto.CreateOrderRequest;
 import com.jacky.spingbootmall.dto.OrderQueryParams;
 import com.jacky.spingbootmall.model.Order;
+import com.jacky.spingbootmall.model.OrderItem;
 
 import java.util.List;
 

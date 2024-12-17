@@ -1,6 +1,5 @@
 package com.jacky.spingbootmall.dto;
 
-import com.jacky.spingbootmall.model.OrderItem;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;

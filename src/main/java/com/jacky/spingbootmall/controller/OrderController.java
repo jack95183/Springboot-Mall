@@ -3,6 +3,7 @@ package com.jacky.spingbootmall.controller;
 import com.jacky.spingbootmall.dto.CreateOrderRequest;
 import com.jacky.spingbootmall.dto.OrderQueryParams;
 import com.jacky.spingbootmall.model.Order;
+import com.jacky.spingbootmall.model.OrderItem;
 import com.jacky.spingbootmall.service.OrderService;
 import com.jacky.spingbootmall.util.Page;
 import jakarta.validation.Valid;
