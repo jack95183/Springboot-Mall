@@ -9,7 +9,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/jack95183/Springboot-Mall.git'
+                // 明確指定分支
+                git branch: 'main', url: 'https://github.com/jack95183/Springboot-Mall.git'
             }
         }
         stage('Build') {
@@ -45,6 +46,7 @@ pipeline {
     }
 }
 
+// 定義 kubectl 的自定義函數
 def kubectl(cmd) {
     sh "kubectl ${cmd}"
 }
