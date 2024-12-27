@@ -6,16 +6,18 @@ pipeline {
         DEPLOYMENT_NAME = "springboot-mall"
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig-credentials'
     }
+    tools {
+        maven 'M3'  // 確保在 Jenkins 中已經配置了 Maven 工具
+    }
     stages {
         stage('Checkout') {
             steps {
-                // 明確指定分支
                 git branch: 'main', url: 'https://github.com/jack95183/Springboot-Mall.git'
             }
         }
         stage('Build') {
             steps {
-                sh './mvnw clean package'
+                sh 'mvn clean package'
             }
         }
         stage('Build Docker Image') {
@@ -46,7 +48,6 @@ pipeline {
     }
 }
 
-// 定義 kubectl 的自定義函數
 def kubectl(cmd) {
     sh "kubectl ${cmd}"
 }
