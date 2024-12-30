@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'docker:latest'
+            image 'docker:19.03.12'
             args '--privileged'  // 使 Docker 容器內部能夠運行 Docker
         }
     }
