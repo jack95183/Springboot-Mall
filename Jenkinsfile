@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:19.03.12'
-            args '--privileged'  // 使 Docker 容器內部能夠運行 Docker
-        }
-    }
+    agent any
     environment {
         DOCKER_IMAGE = "jack95183/springboot-mall"
         KUBERNETES_NAMESPACE = "default"
