@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:latest'
+            args '--privileged'  // 使 Docker 容器內部能夠運行 Docker
+        }
+    }
     environment {
         DOCKER_IMAGE = "jack95183/springboot-mall"
         KUBERNETES_NAMESPACE = "default"
@@ -23,7 +28,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("$DOCKER_IMAGE:${env.BUILD_NUMBER}")
+                    sh 'docker build -t $DOCKER_IMAGE:${env.BUILD_NUMBER} .'
                 }
             }
         }
@@ -31,7 +36,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        docker.image("$DOCKER_IMAGE:${env.BUILD_NUMBER}").push()
+                        sh 'docker push $DOCKER_IMAGE:${env.BUILD_NUMBER}'
                     }
                 }
             }
@@ -44,6 +49,11 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            cleanWs()
         }
     }
 }
