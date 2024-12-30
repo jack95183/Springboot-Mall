@@ -23,24 +23,25 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_IMAGE:${env.BUILD_NUMBER} .'
+                    sh 'docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .'
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        sh 'docker push $DOCKER_IMAGE:${env.BUILD_NUMBER}'
-                    }
+                    sh """
+                        docker login -u your_dockerhub_username -p your_dockerhub_password
+                        docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                    """
                 }
             }
         }
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS_ID]) {
-                        kubectl("set image deployment/$DEPLOYMENT_NAME $DEPLOYMENT_NAME=$DOCKER_IMAGE:${env.BUILD_NUMBER} -n $KUBERNETES_NAMESPACE")
+                    withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
+                        sh "kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${DOCKER_IMAGE}:${BUILD_NUMBER} -n ${KUBERNETES_NAMESPACE}"
                     }
                 }
             }
@@ -51,8 +52,4 @@ pipeline {
             cleanWs()
         }
     }
-}
-
-def kubectl(cmd) {
-    sh "kubectl ${cmd}"
 }
